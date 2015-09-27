@@ -3,7 +3,13 @@
   $subject = $_POST['subject'];
   $text = $_POST['elvismail'];
 
-  if ((!empty($subject)) && (!empty($text))) {
+  if (empty($subject) && empty($text)) {
+    echo 'You forgot the email subject and body test, you dummy!<br/>';
+  } else if (empty($subject)) {
+    echo 'You forgot the subject.<br/>';
+  } else if (empty($text)) {
+    echo 'You forgot the body text.<br/>';
+  } else {
     # Create database connection variable
     $dbc = mysqli_connect('localhost', 'rgschmitz11', '', 'elvis_store')
       or die('Error connecting to MySQL server.');
