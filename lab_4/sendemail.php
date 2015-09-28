@@ -1,42 +1,46 @@
 <?php
-  $from = 'elmer@makemeelvis.com';
-  $subject = $_POST['subject'];
-  $text = $_POST['elvismail'];
-  $output_form = false;
+  if (isset($_POST['submit'])) {
+    $from = 'elmer@makemeelvis.com';
+    $subject = $_POST['subject'];
+    $text = $_POST['elvismail'];
+    $output_form = false;
 
-  if (empty($subject) && empty($text)) {
-    echo 'You forgot the email subject and body test, you dummy!<br/>';
-    $output_form = true;
-  } else if (empty($subject)) {
-    echo 'You forgot the subject.<br/>';
-    $output_form = true;
-  } else if (empty($text)) {
-    echo 'You forgot the body text.<br/>';
-    $output_form = true;
-  } else {
-    # Create database connection variable
-    $dbc = mysqli_connect('localhost', 'rgschmitz11', '', 'elvis_store')
-      or die('Error connecting to MySQL server.');
+    if (empty($subject) && empty($text)) {
+      echo 'You forgot the email subject and body test, you dummy!<br/>';
+      $output_form = true;
+    } else if (empty($subject)) {
+      echo 'You forgot the subject.<br/>';
+      $output_form = true;
+    } else if (empty($text)) {
+      echo 'You forgot the body text.<br/>';
+      $output_form = true;
+    } else {
+      # Create database connection variable
+      $dbc = mysqli_connect('localhost', 'rgschmitz11', '', 'elvis_store')
+        or die('Error connecting to MySQL server.');
 
-    # Create database query
-    $query = "SELECT * FROM email_list";
-    # Execute database query
-    $result = mysqli_query($dbc, $query)
-      or die('Error querying database');
+      # Create database query
+      $query = "SELECT * FROM email_list";
+      # Execute database query
+      $result = mysqli_query($dbc, $query)
+        or die('Error querying database');
 
-    while($row = mysqli_fetch_array($result)) {
-      $first_name = $row['first_name'];
-      $last_name = $row['last_name'];
+      while($row = mysqli_fetch_array($result)) {
+        $first_name = $row['first_name'];
+        $last_name = $row['last_name'];
 
-      $msg = "Dear $first_name $last_name,\n $text";
-      $to = $row['email'];
+        $msg = "Dear $first_name $last_name,\n $text";
+        $to = $row['email'];
 
-      mail($to, $subject, $msg, 'From:' . $from);
-      echo 'Email sent to: ' . $to . '<br/>';
+        mail($to, $subject, $msg, 'From:' . $from);
+        echo 'Email sent to: ' . $to . '<br/>';
+      }
+
+      # Close database connection
+      mysqli_close($dbc);
     }
-
-    # Close database connection
-    mysqli_close($dbc);
+  } else {
+    $output_form = true;
   }
   if ($output_form) {
 ?>
@@ -55,10 +59,12 @@
   Write and send an email to mailing list members.</p>
   <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
     <label for="subject">Subject of email:</label><br />
-    <input id="subject" name="subject" type="text" size="30" /><br />
+    <input id="subject" name="subject" type="text" size="30"
+      value="<?php echo $subject; ?>" /><br />
     <label for="elvismail">Body of email:</label><br />
-    <textarea id="elvismail" name="elvismail" rows="8" cols="40"></textarea><br />
-    <input type="submit" name="Submit" value="Submit" />
+    <!--inserting the php echo on a new line and including spaces added in long spaces in the form (ugly!)-->
+    <textarea id="elvismail" name="elvismail" rows="8" cols="40"><?php echo $text; ?></textarea><br />
+    <input type="submit" name="submit" value="Submit" />
   </form>
 </body>
 </html>
