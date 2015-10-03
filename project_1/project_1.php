@@ -6,7 +6,6 @@
   <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 <?php
-  $output_form = false;
   if (isset($_POST['submit'])) {
     $noun = $_POST['noun'];
     $verb = $_POST['verb'];
@@ -14,26 +13,25 @@
     $adverb = $_POST['adverb'];
     if (empty($noun) || empty($verb) || empty($adjective) || empty($adverb)) {
       echo '<br/><b>Oops, you left a field empty, try again!</b><br/><br/>';
-      $output_form = true;
     } else {
       # Create database connection variable
       $dbc = mysqli_connect('localhost', 'rgschmitz11', '', 'mad_libs')
         or die('Error connecting to MySQL server.');
       # Create database query
-      $query = "INSERT INTO user_input (noun, verb, adjective, adverb) " .
-        "VALUES ('$noun', '$verb', '$adjective', '$adverb')";
+      $query = "INSERT INTO user_input (date, noun, verb, adjective, adverb) " .
+        "VALUES (now(), '$noun', '$verb', '$adjective', '$adverb')";
       # Execute database query
       mysqli_query($dbc, $query)
         or die('Error querying database');
-      # Output Mad Lib!
-      # TODO create mad lib here
       # Close database connection
       mysqli_close($dbc);
+      # Reset variables after successfully including into datebase
+      $noun = '';
+      $verb = '';
+      $adjective = '';
+      $adverb = '';
     }
-  } else {
-    $output_form = true;
   }
-  if ($output_form) {
 ?>
 <body>
   <!--<img name="elvislogo" src="elvislogo.gif" width="229" height="32" border="0" alt="Make Me Elvis" />-->
@@ -49,8 +47,30 @@
     <input type="text" id="adverb" name="adverb" value="<?php echo $adverb; ?>"/><br />
     <input type="submit" name="submit" value="Submit" />
   </form>
+  <hr>
 </body>
 </html>
 <?php
+  # Create database connection variable
+  $dbc = mysqli_connect('localhost', 'rgschmitz11', '', 'mad_libs')
+    or die('Error connecting to MySQL server.');
+  # Construct query
+  $query = "SELECT * FROM user_input ORDER BY id DESC";
+  # Execute database query
+  $result = mysqli_query($dbc, $query)
+    or die('Error querying database');
+  while ($row = mysqli_fetch_array($result)) {
+    $date = $row['date'];
+    $noun = $row['noun'];
+    $verb = $row['verb'];
+    $adjective = $row['adjective'];
+    $adverb = $row['adverb'];
+    # Output Mad Libs!
+    echo "<span class='right'>$date</span>";
+    echo "<span class='left'>";
+    echo "The <u><b>$adjective</b></u> fox <u><b>$adverb</b></u> <u><b>$verb</b></u> over the lazy brown <u><b>$noun</b></u>.";
+    echo "</span><br/><hr>";
   }
+  # Close database connection
+  mysqli_close($dbc);
 ?>
