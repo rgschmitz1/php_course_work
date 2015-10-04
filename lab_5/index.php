@@ -12,6 +12,8 @@
   <hr />
 
 <?php
+  // Define upload path
+  define('GW_UPLOADPATH', $_SERVER['DOCUMENT_ROOT'] . '/images/');
   // Connect to the database 
   $dbc = mysqli_connect('localhost', 'rgschmitz11', '', 'gwdb');
 
@@ -22,15 +24,16 @@
   // Loop through the array of score data, formatting it as HTML 
   echo '<table>';
   while ($row = mysqli_fetch_array($data)) { 
+    $screenshot = GW_UPLOADPATH . $row['screenshot'];
     // Display the score data
     echo '<tr><td class="scoreinfo">';
     echo '<span class="score">' . $row['score'] . '</span><br />';
     echo '<strong>Name:</strong> ' . $row['name'] . '<br />';
     echo '<strong>Date:</strong> ' . $row['date'] . '</td></tr>';
-    if (is_file($row['screenshot']) && filesize($row['screenshot']) > 0) {
-      echo '<td><img src="' . $row['screenshot'] . '" alt="Score image" /></td></tr>';
+    if (is_file($screenshot) && filesize($screenshot) > 0) {
+      echo '<td><img src="/images/' . $row['screenshot'] . '" alt="Score image" /></td></tr>';
     } else {
-      echo '<td><img src="unverified.gif" alt="Unverified score" /></td></tr>';
+      echo '<td><img src="/images/unverified.gif" alt="Unverified score" /></td></tr>';
     }
   }
   echo '</table>';
