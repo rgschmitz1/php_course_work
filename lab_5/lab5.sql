@@ -5,3 +5,4 @@
 ALTER TABLE guitarwars ADD COLUMN screenshot varchar(64);
 #NOW() = set current date and time
 #ORDER BY <column> [DESC|ASC]
+#LIMIT <number> = sets a limit in query
