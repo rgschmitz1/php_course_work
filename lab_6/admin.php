@@ -1,15 +1,5 @@
 <?php
-  //User name and password for authentication
-  $username = 'rock';
-  $password = 'roll';
-  if (!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW']) ||
-    ($_SERVER['PHP_AUTH_USER'] != $username) || ($_SERVER['PHP_AUTH_PW'] != $password)) {
-      // Send authentication headers
-      header('HTTP/1.1 401 Unauthorized');
-      header('WWW-Authenticate: Basic relm="Guitar Wars"');
-      exit('<h2>Guitar Wars</h2>Sorry, you must enter a valid user name and ' .
-        'password to access this page.');
-  }
+  require_once('authorize.php');
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
