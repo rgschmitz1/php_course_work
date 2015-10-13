@@ -36,7 +36,12 @@
     echo "<td>$date</td>";
     echo "<td>$score</td>";
     echo "<td><a href='removescore.php?id=$id&amp;date=$date&amp;name=$name" .
-      "&amp;score=$score&amp;screenshot=$screenshot'>Remove</a></td></tr>";
+      "&amp;score=$score&amp;screenshot=$screenshot'>Remove</a>";
+    if ($row['approved'] == '0') {
+      echo " / <a href='approvescore.php?id=$id&amp;date=$date&amp;name=$name" .
+        "&amp;score=$score&amp;screenshot=$screenshot'>Approve</a>";
+    }
+    echo '</td></tr>';
   }
   echo '</table>';
 
