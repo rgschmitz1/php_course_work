@@ -32,7 +32,8 @@
         header('HTTP/1.1 401 Unauthorized');
         header('WWW-Authenticate: Basic relm="Mismatch"');
         exit('<h2>Mismatch</h2>Sorry, you must enter a valid user name and ' .
-            'password to access this page.');
+            'password to access this page. If you are not a registerd member,' .
+            ' please <a href="signup.php">sign up</a>.');
     }
 
     # confirm successful login
