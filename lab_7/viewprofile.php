@@ -1,37 +1,18 @@
 <?php
-  session_start();
+    require_once('startsession.php');
+    $page_title = 'View Profile';
+    require_once('header.php');
 
-  // If the session vars aren't set, try to set them with a cookie
-  if (!isset($_SESSION['user_id'])) {
-    if (isset($_COOKIE['user_id']) && isset($_COOKIE['username'])) {
-      $_SESSION['user_id'] = $_COOKIE['user_id'];
-      $_SESSION['username'] = $_COOKIE['username'];
-    }
-  }
-?>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Mismatch - View Profile</title>
-  <link rel="stylesheet" type="text/css" href="style.css" />
-</head>
-<body>
-  <h3>Mismatch - View Profile</h3>
-
-<?php
   require_once('appvars.php');
   require_once('connectvars.php');
+
+  // Generate the navigation menu
+  require_once('navmenu.php');
 
   // Make sure the user is logged in before going any further.
   if (!isset($_SESSION['user_id'])) {
     echo '<p class="login">Please <a href="login.php">log in</a> to access this page.</p>';
     exit();
-  }
-  else {
-    echo('<p class="login">You are logged in as ' . $_SESSION['username'] . '. <a href="logout.php">Log out</a>.</p>');
   }
 
   // Connect to the database
@@ -91,9 +72,6 @@
         '" alt="Profile Picture" /></td></tr>';
     }
     echo '</table>';
-    if (!isset($_GET['user_id']) || ($_SESSION['user_id'] == $_GET['user_id'])) {
-      echo '<p>Would you like to <a href="editprofile.php">edit your profile</a>?</p>';
-    }
   } // End of check for a single row of user results
   else {
     echo '<p class="error">There was a problem accessing your profile.</p>';
@@ -101,5 +79,6 @@
 
   mysqli_close($dbc);
 ?>
-</body> 
-</html>
+<?php
+  require_once('footer.php');
+?>
