@@ -11,18 +11,15 @@
   <img src="riskyjobs_fireman.jpg" alt="Risky Jobs" style="float:right" />
   <h3>Risky Jobs - Search Results</h3>
 
+  <table border="0" cellpadding="2">
+    <tr class="heading">
+      <td>Job Title</td><td>Description</td><td>State</td><td>Date Posted</td>
+    </tr>
+
 <?php
   // Grab the sort setting and search keywords from the URL using GET
   $sort = $_GET['sort'];
   $user_search = $_GET['usersearch'];
-
-  // Start generating the table of results
-  echo '<table border="0" cellpadding="2">';
-
-  // Generate the search result headings
-  echo '<tr class="heading">';
-  echo '<td>Job Title</td><td>Description</td><td>State</td><td>Date Posted</td>';
-  echo '</tr>';
 
   // Connect to the database
   require_once('connectvars.php');
@@ -30,12 +27,27 @@
 
   // Query to get the results
   $query = "SELECT * FROM riskyjobs";
+  $clean_search = str_replace(',', ' ', $user_search);
+  $search_words = explode(' ', $clean_search);
+  $final_search_words = array();
+  if (count($search_words) > 0) {
+    foreach ($search_words as $word) {
+      if (!empty($word)) {
+        $final_search_words[] = $word;
+      }
+    }
+  }
+
+  // Generate a WHERE clause using all of the search keywords
   $where_list = array();
-  $search_words = explode(' ', $user_search);
-  foreach ($search_words as $word) {
-    $where_list[] = "description LIKE '%$word%'";
+  if (count($final_search_words) > 0) {
+    foreach ($final_search_words as $word) {
+      $where_list[] = "description LIKE '%$word%'";
+    }
   }
   $where_clause = implode(' OR ', $where_list);
+
+  // Add the keyword WHERE clause to the search query
   if (!empty($where_clause)) {
     $query .= " WHERE $where_clause";
   }
@@ -48,10 +60,10 @@
     echo '<td valign="top" width="20%">' . $row['date_posted'] . '</td>';
     echo '</tr>';
   } 
-  echo '</table>';
 
   mysqli_close($dbc);
 ?>
 
+  </table>
 </body>
 </html>
