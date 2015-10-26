@@ -13,11 +13,9 @@
 
   <table border="0" cellpadding="2">
     <tr class="heading">
-      <td>Job Title</td><td>Description</td><td>State</td><td>Date Posted</td>
-    </tr>
 
 <?php
-  function build_query($user_search) {
+  function build_query($user_search, $sort) {
     // Query to get the results
     $query = "SELECT * FROM riskyjobs";
     $clean_search = str_replace(',', ' ', $user_search);
@@ -44,14 +42,68 @@
     if (!empty($where_clause)) {
       $query .= " WHERE $where_clause";
     }
+    switch ($sort) {
+      case 1:
+        $query .= " ORDER BY title";
+        break;
+      case 2:
+        $query .= " ORDER BY title DESC";
+        break;
+      case 3:
+        $query .= " ORDER BY state";
+        break;
+      case 4:
+        $query .= " ORDER BY state DESC";
+        break;
+      case 5:
+        $query .= " ORDER BY date_posted";
+        break;
+      case 6:
+        $query .= " ORDER BY date_posted DESC";
+        break;
+      default:
+        // do nothing extra
+    }
     return $query;
   }
 
-  // Grab the sort setting and search keywords from the URL using GET
-  $sort = $_GET['sort'];
-  $user_search = $_GET['usersearch'];
+  function generate_sort_links($user_search, $sort) {
+    $sort_links = '';
+    switch ($sort) {
+    // 'Job Title' ascending
+    case 1:
+      $sort_links .= '<td><a href = "' . $_SERVER['PHP_SELF'] . '?usersearch=' . $user_search . '&sort=2">Job Title</a></td><td>Description</td>';
+      $sort_links .= '<td><a href = "' . $_SERVER['PHP_SELF'] . '?usersearch=' . $user_search . '&sort=3">State</a></td>';
+      $sort_links .= '<td><a href = "' . $_SERVER['PHP_SELF'] . '?usersearch=' . $user_search . '&sort=5">Date Posted</a></td>';
+      break;
+    // 'State' ascending
+    case 3:
+      $sort_links .= '<td><a href = "' . $_SERVER['PHP_SELF'] . '?usersearch=' . $user_search . '&sort=1">Job Title</a></td><td>Description</td>';
+      $sort_links .= '<td><a href = "' . $_SERVER['PHP_SELF'] . '?usersearch=' . $user_search . '&sort=4">State</a></td>';
+      $sort_links .= '<td><a href = "' . $_SERVER['PHP_SELF'] . '?usersearch=' . $user_search . '&sort=5">Date Posted</a></td>';
+      break;
+    // 'Date Posted' ascending
+    case 5:
+      $sort_links .= '<td><a href = "' . $_SERVER['PHP_SELF'] . '?usersearch=' . $user_search . '&sort=1">Job Title</a></td><td>Description</td>';
+      $sort_links .= '<td><a href = "' . $_SERVER['PHP_SELF'] . '?usersearch=' . $user_search . '&sort=3">State</a></td>';
+      $sort_links .= '<td><a href = "' . $_SERVER['PHP_SELF'] . '?usersearch=' . $user_search . '&sort=6">Date Posted</a></td>';
+      break;
+    default:
+      $sort_links .= '<td><a href = "' . $_SERVER['PHP_SELF'] . '?usersearch=' . $user_search . '&sort=1">Job Title</a></td><td>Description</td>';
+      $sort_links .= '<td><a href = "' . $_SERVER['PHP_SELF'] . '?usersearch=' . $user_search . '&sort=3">State</a></td>';
+      $sort_links .= '<td><a href = "' . $_SERVER['PHP_SELF'] . '?usersearch=' . $user_search . '&sort=5">Date Posted</a></td>';
+    }
+    $sort_links .= '</tr>';
+    return $sort_links;
+  }
 
-  $search_query = build_query($user_search);
+  // Grab the sort setting and search keywords from the URL using GET
+  $user_search = $_GET['usersearch'];
+  $sort = $_GET['sort'];
+
+  $sort_links = generate_sort_links($user_search, $sort);
+  echo $sort_links;
+  $search_query = build_query($user_search, $sort);
 
   // Connect to the database
   require_once('connectvars.php');
