@@ -15,6 +15,10 @@
     <tr class="heading">
 
 <?php
+  // Connect to the database
+  require_once('connectvars.php');
+  $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
   function build_query($user_search, $sort) {
     // Query to get the results
     $query = "SELECT * FROM riskyjobs";
@@ -94,21 +98,61 @@
       $sort_links .= '<td><a href = "' . $_SERVER['PHP_SELF'] . '?usersearch=' . $user_search . '&sort=5">Date Posted</a></td>';
     }
     $sort_links .= '</tr>';
+    echo $sort_links;
     return $sort_links;
+  }
+
+  // This function builds navigational page links based on the current page and the number of pages
+  function generate_page_links($user_search, $sort, $cur_page, $num_pages) {
+    $page_links = '';
+
+    // If this page is not the first page, generate the "previous" link
+    if ($cur_page > 1) {
+      $page_links .= '<a href="' . $_SERVER['PHP_SELF'] . '?usersearch=' . $user_search . '&sort=' . $sort . '&page=' . ($cur_page - 1) . '"><-</a> ';
+    }
+    else {
+      $page_links .= '<- ';
+    }
+
+    // Loop through the pages generating the page number links
+    for ($i = 1; $i <= $num_pages; $i++) {
+      if ($cur_page == $i) {
+        $page_links .= ' ' . $i;
+      }
+      else {
+        $page_links .= ' <a href="' . $_SERVER['PHP_SELF'] . '?usersearch=' . $user_search . '&sort=' . $sort . '&page=' . $i . '"> ' . $i . '</a>';
+      }
+    }
+
+    // If this page is not the last page, generate the "next" link
+    if ($cur_page < $num_pages) {
+      $page_links .= ' <a href="' . $_SERVER['PHP_SELF'] . '?usersearch=' . $user_search . '&sort=' . $sort . '&page=' . ($cur_page + 1) . '">-></a>';
+    }
+    else {
+      $page_links .= ' ->';
+    }
+
+    return $page_links;
   }
 
   // Grab the sort setting and search keywords from the URL using GET
   $user_search = $_GET['usersearch'];
   $sort = $_GET['sort'];
 
+  // Calculate pagination information
+  $cur_page = isset($_GET['page']) ? $_GET['page'] : 1;
+  $results_per_page = 5;
+  $skip = (($cur_page - 1) * $results_per_page);
+
   $sort_links = generate_sort_links($user_search, $sort);
-  echo $sort_links;
   $search_query = build_query($user_search, $sort);
 
-  // Connect to the database
-  require_once('connectvars.php');
-  $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+  $result = mysqli_query($dbc, $search_query);
+  $total = mysqli_num_rows($result);
+  $num_pages = ceil($total / $results_per_page);
 
+  // Query again to get just the subset of results
+  $search_query = $search_query . " LIMIT $skip, $results_per_page";
   $result = mysqli_query($dbc, $search_query);
   while ($row = mysqli_fetch_array($result)) {
 ?>
@@ -120,10 +164,14 @@
     </tr>
 <?php
   }
+  echo '</table>';
+
+  if ($num_pages > 1) {
+    echo generate_page_links($user_search, $sort, $cur_page, $num_pages);
+  }
 
   mysqli_close($dbc);
 ?>
 
-  </table>
 </body>
 </html>
