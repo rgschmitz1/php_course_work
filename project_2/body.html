@@ -1,0 +1,18 @@
+    <p class="lead">BMI Calculator</p>
+    <hr>
+    <form method="post" action="<?= $_SERVER['PHP_SELF'] ?>">
+        <div class="col-xs-2">
+            <label for="user_weight">Enter a weight (in pounds):</label>
+            <input class="form-control" type="text" id="user_weight"
+            name="user_weight" placeholder="weight" value="<?= $weight ?>"/>
+            <br/>
+            <label for="user_height">Enter a height (in inches):</label>
+            <input class="form-control" type="text" id="user_height"
+            name="user_height" placeholder="height" value="<?= $height ?>"/>
+            <br/>
+        <div>
+        <input type="submit" class="btn btn-primary" name="submit"
+        value="Calculate BMI" />
+    </form>
+</body>
+</html>
