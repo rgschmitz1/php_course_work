@@ -2,10 +2,10 @@
     require_once('bmivars.php');
     require_once('functions.php');
     include('header.html');
-    if (isset($_POST['submit']))
+    if (isset($_GET['submit']))
     {
-        $weight = $_POST['user_weight'];
-        $height = $_POST['user_height'];
+        $weight = $_GET['user_weight'];
+        $height = $_GET['user_height'];
         if (empty($weight) || empty($height))
         {
             empty_input();
