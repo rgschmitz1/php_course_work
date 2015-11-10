@@ -1,5 +1,22 @@
 <?php
     require_once('madlibs.php');
+    if (isset($_POST['submit'])) {
+        $noun = $_POST['noun'];
+        $verb = $_POST['verb'];
+        $adjective = $_POST['adjective'];
+        $adverb = $_POST['adverb'];
+        if (empty($noun) || empty($verb) || empty($adjective) || empty($adverb)) {
+            echo '<br/><b>Oops, you left a field empty, try again!</b><br/><br/>';
+        } else {
+            $handler = new Madlib;
+            $handler->setnoun($noun);
+            $handler->setverb($verb);
+            $handler->setadjective($adjective);
+            $handler->setadverb($adverb);
+            $handler->createstory();
+            $handler->storeinputs();
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -110,6 +127,10 @@
         <hr>
 <ul>
     <!-- TODO: LOOP OVER STORIES AND DISPLAY THEM AS LIST ITEMS, NEWEST FIRST -->
+<?php
+    $display = new Madlib;
+    $display->displaystory();
+?>
 </ul>
         <!-- Footer -->
         <footer>
