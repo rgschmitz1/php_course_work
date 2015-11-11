@@ -8,11 +8,13 @@
         $height = $_GET['user_height'];
         if (empty($weight) || empty($height))
         {
-            empty_input();
+            # Empty inputs warning
+            alert_msg('warning', '<b>Oops,</b> you left a field empty, try again!');
         }
         else if (!is_numeric($weight) || !is_numeric($height))
         {
-            non_numeric_input();
+            # Non-numeric input warning
+            alert_msg('warning', 'Height and weight must be numeric inputs');
         }
         else
         {

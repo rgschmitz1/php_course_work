@@ -1,4 +1,15 @@
 <?php
+    # Alert message
+    function alert_msg($type,$msg)
+    {
+?>
+    <div class='alert alert-dismissable alert-<?= $type ?>'>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <?= $msg ?>
+    </div>
+<?php
+    }
+
     # Check BMI
     function check_bmi($weight, $height)
     {
@@ -9,34 +20,17 @@
         if ($bmi >= BMI_MIN && $bmi <= BMI_MAX)
         {
             # BMI is normal
-            echo "<div class='alert alert-success'>" . $bmi_msg . BMI_NORM_MSG .
-                "</div>";
+            alert_msg('success', $bmi_msg . BMI_NORM_MSG);
         }
         else if ($bmi < BMI_MIN)
         {
             # BMI is less than normal
-            echo "<div class='alert alert-danger'>" . $bmi_msg . BMI_UNDER_MSG .
-                "</div>";
+            alert_msg('danger', $bmi_msg . BMI_UNDER_MSG);
         }
         else
         {
             # BMI is greater than normal
-            echo "<div class='alert alert-danger'>" . $bmi_msg . BMI_OVER_MSG .
-                "</div>";
+            alert_msg('danger', $bmi_msg . BMI_OVER_MSG);
         }
-    }
-
-    # Empty inputs warning
-    function empty_input()
-    {
-        echo "<div class='alert alert-dismissible alert-warning'><b>Oops</b>," .
-            " you left a field empty, try again!</div>";
-    }
-
-    # Non numeric input warning
-    function non_numeric_input()
-    {
-        echo "<div class='alert alert-warning'>Height and weight must be" .
-            " numeric inputs</div>";
     }
 ?>
