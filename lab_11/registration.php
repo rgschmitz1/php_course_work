@@ -37,6 +37,9 @@
       echo '<p class="error">Your phone number is invalid, please enter in form ###-###-####.</p>';
       $output_form = 'yes';
     }
+    else {
+      $phone = preg_replace('/[\(\)\-\s]/', '', $phone);
+    }
 
     if (empty($job)) {
       // $job is blank
@@ -58,7 +61,8 @@
     include('body.html');
   }
   else if ($output_form == 'no') {
-    echo '<p>' . $first_name . ' ' . $last_name . ', thanks for registering with Risky Jobs!</p>';
+    echo "<p>$first_name $last_name, thanks for registering with Risky Jobs!<br/>" .
+      "Your phone number has been registered as $phone.</p>";
 
     // code to insert data into the RiskyJobs database...
   }
