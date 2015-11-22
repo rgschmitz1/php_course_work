@@ -26,6 +26,12 @@
       echo '<p class="error">You forgot to enter your email address.</p>';
       $output_form = 'yes';
     }
+    else if ((!preg_match('/\w[\w\._\-&!?=#]*@/', $email)) ||
+            (!checkdnsrr(preg_replace('/.*@/', '', $email)))) {
+      // $email is invalid
+      echo '<p class="error">Your email address is invalid.</p>';
+      $output_form = 'yes';
+    }
 
     if (empty($phone)) {
       // $phone is blank
@@ -38,7 +44,7 @@
       $output_form = 'yes';
     }
     else {
-      $phone = preg_replace('/[\(\)\-\s]/', '', $phone);
+      $valid_phone = preg_replace('/[\(\)\-\s]/', '', $phone);
     }
 
     if (empty($job)) {
@@ -62,7 +68,7 @@
   }
   else if ($output_form == 'no') {
     echo "<p>$first_name $last_name, thanks for registering with Risky Jobs!<br/>" .
-      "Your phone number has been registered as $phone.</p>";
+      "Your phone number has been registered as $valid_phone.</p>";
 
     // code to insert data into the RiskyJobs database...
   }
