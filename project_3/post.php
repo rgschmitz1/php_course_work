@@ -8,7 +8,14 @@
     # connect to database
     $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME)
         or die('Error connectionto MySQL server.');
+?>
 
+<form class="form-horizontal" method="post" action="<?= $_SERVER['PHP_SELF'] ?>">
+    <fieldset>
+        <div class="container">
+            <legend>New Post</legend>
+
+<?php
     if (isset($_POST['submit']))
     {
         $title = mysqli_real_escape_string($dbc, trim($_POST['title']));
@@ -47,11 +54,6 @@
         }
     }
 ?>
-
-<form class="form-horizontal" method="post" action="<?= $_SERVER['PHP_SELF'] ?>">
-    <fieldset>
-        <div class="container">
-            <legend>New Post</legend>
             <div class="form-group">
                 <label for="title" class="col-lg-1 control-label">Title</label>
                 <div class="col-lg-10">

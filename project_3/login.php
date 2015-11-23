@@ -52,7 +52,15 @@
 <?php
     if (empty($_SESSION['username']))
     {
-        echo "<p class='text-danger'>$error_msg</p>";
+        if (!empty($error_msg))
+        {
+?>
+<div class="alert alert-warning">
+    <h4>Warning</h4>
+    <p><?= $error_msg ?></p>
+</div>
+<?php
+        }
 ?>
             <div class="form-group">
                 <label for="username" class="col-lg-1 control-label">Username</label>
