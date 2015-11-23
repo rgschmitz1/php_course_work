@@ -31,7 +31,7 @@
                     # Login is OK, set the user ID and username cookies, then redirect to homepage
                     $row = mysqli_fetch_array($data);
                     $_SESSION['username'] = $user_username;
-                    header("Location: " . HOME_URL);
+                    header('Location: ' . SITE_ROOT . '/index.php');
                 }
                 else
                 {

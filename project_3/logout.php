@@ -10,5 +10,5 @@
     }
 
     # Redirect to the home page
-    header("Location: " . HOME_URL);
+    header('Location: ' . SITE_ROOT . '/index.php');
 ?>
