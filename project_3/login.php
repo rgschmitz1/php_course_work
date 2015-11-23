@@ -9,7 +9,8 @@
     $error_msg = '';
 
     # connect to database
-    $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+    $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME)
+        or die('Error connectionto MySQL server.');
 
     # If the user isn't logged in, try to log them in
     if (!isset($_SESSION['username']))
@@ -29,7 +30,6 @@
                 if (mysqli_num_rows($data) == 1)
                 {
                     # Login is OK, set the SESSION username, then redirect to homepage
-                    $row = mysqli_fetch_array($data);
                     $_SESSION['username'] = $user_username;
                     header('Location: ' . SITE_ROOT . '/index.php');
                 }
@@ -45,33 +45,41 @@
         }
     }
 ?>
-    <div class='container'>
-        <h1>Login</h1>
-        <hr>
+<form class="form-horizontal" method="post" action="<?= $_SERVER['PHP_SELF'] ?>">
+    <fieldset>
+        <div class="container">
+            <legend>Login</legend>
 <?php
     if (empty($_SESSION['username']))
     {
         echo "<p class='text-danger'>$error_msg</p>";
 ?>
-        <form method="post" action="<?= $_SERVER['PHP_SELF']; ?>">
-            <div class="col-xs-2">
-                <label for="username">Username:</label>
-                <input class="form-control" type="text" id="username" placeholder="Username" name="username"
-                    value="<?= $user_username; ?>" />
-                <br/>
-                <label for="password">Password:</label>
-                <input class="form-control" type="password" id="password" placeholder="Password" name="password" />
-                <br/>
-                <input type="submit" class="btn btn-primary" name="submit" value="Submit" />
+            <div class="form-group">
+                <label for="username" class="col-lg-1 control-label">Username</label>
+                <div class="col-lg-2">
+                    <input type="text" class="form-control" value="<?= $user_username ?>" id="username" name="username" placeholder="Username">
+                </div>
             </div>
-        </form>
-    </div>
+            <div class="form-group">
+              <label for="password" class="col-lg-1 control-label">Password</label>
+                 <div class="col-lg-2">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-1 col-lg-offset-1">
+                    <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</form>
 <?php
     }
     else
     {
         # Confirm the successful log in
-        echo('<p>You are logged in as ' . $_SESSION['username'] . '.</p></div>');
+        echo('<p>You are logged in as ' . $_SESSION['username'] . '.</p>');
     }
     include('footer.html');
 ?>
