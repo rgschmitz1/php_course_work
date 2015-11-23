@@ -1,5 +1,5 @@
 <?php
-    include('header.html');
+    include('header.php');
     require_once('appvars.php');
 
     # Start the session
@@ -45,10 +45,9 @@
         }
     }
 ?>
-<body>
-    <div class="container">
-        <h3>Project 3 - Log In</h3>
-        <hr>
+    <div class='container'>
+    <h1>Login</h1>
+    <hr>
 <?php
     # If the cookie is empty, show any error message and the lgin form; otherwise confirm the login
     if (empty($_SESSION['username']))
@@ -74,7 +73,6 @@
         # Confirm the successful log in
         echo('<p class="login">You are logged in as ' . $_SESSION['username'] . '.</p>');
     }
+    echo '</div>';
+    include('footer.html');
 ?>
-    </div>
-</body>
-</html>
