@@ -34,6 +34,7 @@
     if (isset($_SESSION['username']))
     {
         echo "<li><a href='" . SITE_ROOT . "/logout.php'>Logout</a></li>";
+        echo "<li><a href='" . SITE_ROOT . "/post.php'>New Post</a></li>";
     }
     else
     {
