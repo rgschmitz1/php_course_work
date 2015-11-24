@@ -8,6 +8,7 @@
     <title>Project 3 - Blog</title>
     <!-- https://bootswatch.com/simplex -->
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/sticky-footer.css" />
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="js/jquery-1.11.3.min.js"></script>
     <!-- Include all compiled plugins -->
@@ -16,7 +17,7 @@
 
 <body>
 <nav class="navbar navbar-inverse">
-    <div class="container-fluid">
+    <div class="container container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                 <span class="sr-only">Toggle navigation</span>
