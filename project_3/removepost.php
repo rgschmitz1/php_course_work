@@ -8,8 +8,7 @@
     {
         header('Location: ' . SITE_ROOT . '/login.php');
     }
-
-    if (isset($_POST['submit']) && !empty($_POST['check_list']))
+    else if (isset($_POST['submit']) && !empty($_POST['check_list']))
     {
         # Connect to database
         $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME)
@@ -25,6 +24,11 @@
         # Close database connection
         mysqli_close($dbc);
 
+        # Navigate back to index after completion
+        header('Location: ' . SITE_ROOT . '/index.php');
+    }
+    else
+    {
         # Navigate back to index after completion
         header('Location: ' . SITE_ROOT . '/index.php');
     }
