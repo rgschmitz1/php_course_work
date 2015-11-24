@@ -12,6 +12,7 @@
     if (isset($_SESSION['username']))
     {
 ?>
+<form method="post" action="<?= SITE_ROOT . '/removepost.php' ?>">
     <div class="col-xs-offset-9 col-xs-3">
         <div class="affix">
             <div class="well">
@@ -28,13 +29,11 @@
     <div class="container">
 
 <?php if (isset($_SESSION['username'])) { ?>
-<!--TODO: Finish this part-->
         <div class="checkbox">
             <label>
                 <input type="checkbox" name="check_list[]" value="<?= $record['id'] ?>"><label>Delete Post</label>
             </label>
         </div>
-<!--TODO: Finish this part-->
 <?php } ?>
 
         <p>
@@ -48,6 +47,10 @@
         <hr>
     </div>
 <?php
+    }
+    if (isset($_SESSION['username']))
+    {
+        echo '</form>';
     }
     include('footer.html');
 ?>
