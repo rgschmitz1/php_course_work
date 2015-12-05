@@ -86,8 +86,11 @@
     }
     else
     {
-        # Confirm the successful log in
-        echo('<p>You are logged in as ' . $_SESSION['username'] . '.</p>');
+?>
+        <p>You are logged in as <?= $_SESSION['username'] ?>.</p>
+    </fieldset>
+</form>
+<?php
     }
     include('footer.html');
 ?>
