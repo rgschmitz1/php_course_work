@@ -3,7 +3,7 @@
 <rss version="2.0">
   <channel>
     <title>Aliens Abducted Me - Newsfeed</title>
-    <link>https://php-mysql-rgschmitz11.c9.io/php_course_work/lab_13</link>
+    <link>https://php-mysql-rgschmitz11.c9.io/php_course_work/lab_13/index.php</link>
     <description>Alien abduction reports from around the world courtesy of Owen and his abducted dog Fang.</description>
     <language>en-us</language>
 
@@ -35,7 +35,7 @@
 ?>
     <item>
         <title><?= $firstname . ' ' . $lastname . ' - ' . $description ?>...</title>
-        <link>https://php-mysql-rgschmitz11.c9.io/php_course_work/lab_13/?abduction_id=<?= $id ?></link>
+        <link>https://php-mysql-rgschmitz11.c9.io/php_course_work/lab_13/index.php?abduction_id=<?= $id ?></link>
         <pubDate><?= $when . ' ' . $date ?></pubDate>
         <description><?= $what ?></description>
     </item>
