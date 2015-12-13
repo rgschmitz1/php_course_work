@@ -13,9 +13,8 @@
 <?php
     }
 
-?>
-    <div class="container">
-<?php
+    echo '<div class="container">';
+
     // Read the XML data into an object
     $xml = simplexml_load_file(FLICKR);
 
@@ -23,23 +22,16 @@
     $num_photos_found = count($xml->entry);
     if ($num_photos_found == 0)
     {
-?>
-    <p>Sorry, no photos were found.</p>
-<?php
+        echo '<p>Sorry, no photos were found.</p>';
     }
     else
     {
-        $photos_in_table = min($num_photos_found, MAX_NUM_PHOTOS);
+        echo '<table>';
         $photo_num = 0;
-
-?>
-    <table>
-<?php
+        $photos_in_table = min($num_photos_found, MAX_NUM_PHOTOS);
         while ($photos_in_table > 0 )
         {
-?>
-    <tr>
-<?php
+            echo '<tr>';
             $item_in_row = 0;
             while (($item_in_row < PHOTOS_PER_ROW) && ($photos_in_table != 0))
             {
@@ -76,15 +68,9 @@
                     }
                 }
             }
-?>
-    </tr>
-<?php
+            echo '</tr>';
         }
-?>
-    </table>
-<?php
+        echo '</table>';
     }
-?>
-    </div>
-<?php
+    echo '</div>';
 ?>
