@@ -1,5 +1,5 @@
 <?php
-    include('header.html');
-    include('flickr.php');
-    include('footer.html');
+    require_once('header.html');
+    require_once('flickr.php');
+    require_once('footer.html');
 ?>

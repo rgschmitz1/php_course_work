@@ -1,4 +1,5 @@
 <?php
+    require_once('header.html');
     require_once('appvars.php');
 
     // display image
@@ -15,8 +16,17 @@
 
     echo '<div class="container">';
 
-    // Read the XML data into an object
-    $xml = simplexml_load_file(FLICKR);
+    if (isset($_GET['tag']) && !empty($_GET['tag']))
+    {
+        $tag = $_GET['tag'];
+        $url = FLICKR . '?tags=' . $tag;
+        $xml = simplexml_load_file($url);
+    }
+    else
+    {
+        // Read the XML data into an object
+        $xml = simplexml_load_file(FLICKR);
+    }
 
     // Get the photo count from flickr api
     $num_photos_found = count($xml->entry);
@@ -73,4 +83,5 @@
         echo '</table>';
     }
     echo '</div>';
+    require_once('footer.html');
 ?>
